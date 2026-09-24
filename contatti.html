@@ -53,7 +53,7 @@
         <!--
           Form collegato a Formspree (endpoint mppwlpek, form "BlueSkyMilano").
         -->
-        <form class="form-grid" action="https://formspree.io/f/mppwlpek" method="POST">
+        <form class="form-grid" id="contact-form" action="https://formspree.io/f/mppwlpek" method="POST" data-thanks="grazie.html">
           <input type="hidden" name="_subject" value="Nuova richiesta da blueskymilan.it">
           <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
           <div>
@@ -77,6 +77,7 @@
             <textarea id="messaggio" name="messaggio" required placeholder="Raccontaci il tuo soggiorno: quante persone, quante notti, esigenze particolari..."></textarea>
           </div>
           <button type="submit" class="btn btn-primary">Invia richiesta</button>
+          <p class="form-error" id="form-error" role="alert" hidden>Non siamo riusciti a inviare il messaggio. Riprova tra poco, oppure scrivici su <a href="https://wa.me/393207637442" target="_blank" rel="noopener">WhatsApp</a> o a <a href="mailto:info@blueskymilan.it">info@blueskymilan.it</a>.</p>
         </form>
       </div>
 

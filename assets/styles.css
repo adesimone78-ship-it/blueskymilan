@@ -304,6 +304,8 @@ input, textarea {
 input:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(42, 111, 165, 0.15); }
 textarea { min-height: 130px; resize: vertical; }
 .form-grid .btn-primary { justify-self: start; }
+.form-grid .btn-primary[disabled] { opacity: 0.6; cursor: wait; }
+.form-error { color: #9b2c2c; background: #fdecec; border: 1px solid #f3c2c2; padding: 12px 14px; border-radius: 2px; margin: 0; }
 
 .contact-info { display: grid; gap: 16px; }
 .contact-info .item { display: flex; gap: 12px; align-items: flex-start; }

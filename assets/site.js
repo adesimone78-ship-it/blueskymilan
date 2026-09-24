@@ -41,4 +41,30 @@ document.addEventListener('DOMContentLoaded', function () {
       banner.classList.remove('show');
     });
   }
+  // Modulo contatti: invio a Formspree in background, poi pagina di ringraziamento sul sito
+  var form = document.getElementById('contact-form');
+  if (form && window.fetch && window.FormData) {
+    var errorBox = document.getElementById('form-error');
+    var submitBtn = form.querySelector('button[type="submit"]');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (errorBox) errorBox.hidden = true;
+      var label = submitBtn ? submitBtn.textContent : '';
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Invio in corso…'; }
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(function (res) {
+        if (res.ok) {
+          window.location.href = form.getAttribute('data-thanks') || 'grazie.html';
+        } else {
+          throw new Error('invio non riuscito');
+        }
+      }).catch(function () {
+        if (errorBox) errorBox.hidden = false;
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = label; }
+      });
+    });
+  }
 });
