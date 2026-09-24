@@ -11,9 +11,12 @@
 <meta property="og:description" content="Appartamento in affitto breve a Milano, a 2 minuti dalla metro M3. Self check-in, cucina attrezzata, terrazzo privato.">
 <meta property="og:url" content="https://www.blueskymilan.it/">
 <meta property="og:locale" content="it_IT">
+<meta property="og:image" content="https://www.blueskymilan.it/assets/images/og-bluesky.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="assets/styles.css">
 <script type="application/ld+json">
 {
@@ -31,6 +34,12 @@
     "addressRegion": "MI",
     "addressCountry": "IT"
   },
+  "logo": "https://www.blueskymilan.it/assets/images/logo-bluesky.png",
+  "image": [
+    "https://www.blueskymilan.it/assets/images/salotto-02.jpg",
+    "https://www.blueskymilan.it/assets/images/camera-01.jpg",
+    "https://www.blueskymilan.it/assets/images/terrazzo-panorama-01.jpg"
+  ],
   "amenityFeature": [
     { "@type": "LocationFeatureSpecification", "name": "WiFi", "value": true },
     { "@type": "LocationFeatureSpecification", "name": "Cucina attrezzata", "value": true },
@@ -45,7 +54,7 @@
 
 <header class="site-header">
   <div class="nav-wrap">
-    <a href="index.html" class="brand"><span class="dot">☀</span> Blue Sky Milano</a>
+    <a href="index.html" class="brand" aria-label="Blue Sky Apartment Milano, home"><img src="assets/images/logo-mark.png" alt="" width="72" height="40"><span class="brand-text"><span class="brand-name">Blue Sky</span><small>Apartment · Milano</small></span></a>
     <button class="nav-toggle" aria-label="Apri menu">☰</button>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
@@ -56,8 +65,9 @@
   </div>
 </header>
 
-<section class="hero">
+<section class="hero hero-photo">
   <div class="container">
+    <img class="hero-mark" src="assets/images/logo-mark-white.png" alt="" width="140" height="78">
     <div class="eyebrow">Affitto breve · Milano, Comasina</div>
     <h1>Blue Sky Milano<br>a due passi dalla Metro M3</h1>
     <p class="lead">Appartamento indipendente con cucina attrezzata, terrazzo privato e self check-in. Ideale per soggiorni brevi e lunghi a Milano — smart working, trasferte di lavoro, coppie in visita.</p>
@@ -130,11 +140,11 @@
   </div>
 </section>
 
-<section>
+<section class="dark">
   <div class="container">
     <div class="grid grid-2" style="align-items:center;">
-      <div class="photo-tile" style="order:2;">
-        <img src="assets/images/terrazzo-panorama-01.jpg" alt="Tramonto sul quartiere Comasina visto dal terrazzo di Blue Sky Milano" loading="lazy">
+      <div class="map-embed" style="order:2;">
+        <iframe src="https://www.google.com/maps?q=Via+Gerolamo+Forni,+Milano&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mappa Blue Sky Milano - Via Gerolamo Forni, Milano"></iframe>
       </div>
       <div style="order:1;">
         <span class="badge">La zona</span>
@@ -159,7 +169,8 @@
 <footer class="site-footer">
   <div class="footer-grid">
     <div>
-      <h4>Blue Sky Milano</h4>
+      <img class="footer-mark" src="assets/images/logo-mark-white.png" alt="" width="90" height="50">
+      <h4>Blue Sky Apartment Milano</h4>
       <p style="color:#a39c8c; font-size:0.92rem;">Affitto breve in Via Gerolamo Forni, Milano.<br>CIN: IT015146C2O7BD2XEE</p>
     </div>
     <div>
