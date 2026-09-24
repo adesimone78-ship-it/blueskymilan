@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contatti e Prenotazioni | Blue Sky Milano</title>
+<meta name="description" content="Contatta Blue Sky Milano per verificare disponibilità e prenotare il tuo soggiorno in affitto breve a Milano, zona Comasina. Rispondiamo rapidamente a telefono, email o modulo.">
+<link rel="canonical" href="https://www.blueskymilan.it/contatti.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Contatti | Blue Sky Milano">
+<meta property="og:description" content="Verifica disponibilità e prenota il tuo soggiorno in affitto breve a Milano.">
+<meta property="og:url" content="https://www.blueskymilan.it/contatti.html">
+<meta property="og:locale" content="it_IT">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="index.html" class="brand"><span class="dot">☀</span> Blue Sky Milano</a>
+    <button class="nav-toggle" aria-label="Apri menu">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="l-appartamento.html">L'Appartamento</a></li>
+      <li><a href="zona.html">La Zona</a></li>
+      <li><a href="contatti.html" class="nav-cta">Contatti</a></li>
+    </ul>
+  </div>
+</header>
+
+<nav class="breadcrumb"><a href="index.html">Home</a> / Contatti</nav>
+
+<section class="hero" style="padding-top:40px;">
+  <div class="container">
+    <div class="eyebrow">Contatti</div>
+    <h1>Scrivici o chiamaci</h1>
+    <p class="lead">Ti rispondiamo rapidamente per confermare disponibilità, date e ogni dettaglio del tuo soggiorno.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="grid grid-2" style="align-items:start;">
+
+      <div>
+        <h2>Manda un messaggio</h2>
+        <!--
+          Form collegato a Formspree (endpoint mppwlpek, form "BlueSkyMilano").
+        -->
+        <form class="form-grid" action="https://formspree.io/f/mppwlpek" method="POST">
+          <input type="hidden" name="_subject" value="Nuova richiesta da blueskymilan.it">
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+          <div>
+            <label for="nome">Nome e cognome</label>
+            <input type="text" id="nome" name="nome" required>
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          <div>
+            <label for="telefono">Telefono (opzionale)</label>
+            <input type="tel" id="telefono" name="telefono">
+          </div>
+          <div>
+            <label for="date">Date del soggiorno (indicative)</label>
+            <input type="text" id="date" name="date" placeholder="Es. dal 10 al 15 ottobre">
+          </div>
+          <div>
+            <label for="messaggio">Messaggio</label>
+            <textarea id="messaggio" name="messaggio" required placeholder="Raccontaci il tuo soggiorno: quante persone, quante notti, esigenze particolari..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Invia richiesta</button>
+        </form>
+      </div>
+
+      <div>
+        <h2>Contatti diretti</h2>
+        <div class="contact-info">
+          <div class="item">
+            <span class="ic">📞</span>
+            <div><strong>Telefono</strong><br><a href="tel:+393207637442">+39 320 763 7442</a></div>
+          </div>
+          <div class="item">
+            <span class="ic">💬</span>
+            <div><strong>WhatsApp</strong><br><a href="https://wa.me/393207637442" target="_blank" rel="noopener">Scrivici su WhatsApp</a> — risposta entro poche ore</div>
+          </div>
+          <div class="item">
+            <span class="ic">✉️</span>
+            <div><strong>Email</strong><br><a href="mailto:info@blueskymilan.it">info@blueskymilan.it</a></div>
+          </div>
+          <div class="item">
+            <span class="ic">📍</span>
+            <div><strong>Indirizzo</strong><br>Via Gerolamo Forni, Milano</div>
+          </div>
+          <div class="item">
+            <span class="ic">🪪</span>
+            <div><strong>CIN</strong><br>IT015146C2O7BD2XEE</div>
+          </div>
+        </div>
+
+        <div class="map-embed" style="margin-top:24px;">
+          <iframe
+            src="https://www.google.com/maps?q=Via+Gerolamo+Forni,+Milano&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Mappa Blue Sky Milano - Via Gerolamo Forni, Milano">
+          </iframe>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="container">
+    <div class="section-head">
+      <h2>Domande frequenti</h2>
+      <p>Le risposte alle domande più comuni. Per qualsiasi altra informazione, scrivici su WhatsApp o via email.</p>
+    </div>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Quanti ospiti possono soggiornare?</h3>
+        <p>L'appartamento ospita fino a 3 persone: un letto matrimoniale 160×190 in camera e un divano letto 120×190 in soggiorno.</p>
+      </div>
+      <div class="card">
+        <h3>Come funziona il check-in?</h3>
+        <p>Il check-in è completamente autonomo (self check-in): riceverai per tempo le istruzioni e il codice di accesso, senza vincoli di orario.</p>
+      </div>
+      <div class="card">
+        <h3>C'è parcheggio nelle vicinanze?</h3>
+        <p>Lo svincolo A4 di Cormano dista circa 1 km. Per il parcheggio è disponibile la sosta libera nelle vicinanze.</p>
+      </div>
+      <div class="card">
+        <h3>Si possono ospitare animali?</h3>
+        <p>Contattaci direttamente per valutare la richiesta: le soluzioni vengono studiate caso per caso.</p>
+      </div>
+      <div class="card">
+        <h3>Posso prenotare per soggiorni lunghi?</h3>
+        <p>Sì, l'appartamento è pensato sia per soggiorni brevi sia per permanenze più lunghe, con tariffe dedicate. Scrivici per un preventivo personalizzato.</p>
+      </div>
+      <div class="card">
+        <h3>In quanto tempo rispondete?</h3>
+        <p>Rispondiamo entro poche ore, sia via WhatsApp che via email.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <h4>Blue Sky Milano</h4>
+      <p style="color:#a39c8c; font-size:0.92rem;">Affitto breve in Via Gerolamo Forni, Milano.<br>CIN: IT015146C2O7BD2XEE</p>
+    </div>
+    <div>
+      <h4>Naviga</h4>
+      <a href="index.html">Home</a>
+      <a href="l-appartamento.html">L'Appartamento</a>
+      <a href="zona.html">La Zona</a>
+      <a href="contatti.html">Contatti</a>
+    </div>
+    <div>
+      <h4>Contatti diretti</h4>
+      <a href="tel:+393207637442">+39 320 763 7442</a>
+      <a href="https://wa.me/393207637442" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="mailto:info@blueskymilan.it">info@blueskymilan.it</a>
+    </div>
+    <div>
+      <h4>Legale</h4>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="cookie.html">Cookie Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Blue Sky Milano. Tutti i diritti riservati.</span>
+    <span>CIN IT015146C2O7BD2XEE</span>
+  </div>
+</footer>
+
+<div class="cookie-banner" id="cookie-banner">
+  <p>Questo sito usa cookie tecnici e, se accetti, cookie per la mappa integrata. Leggi la <a href="cookie.html">Cookie Policy</a>.</p>
+  <div class="cookie-actions">
+    <button class="cookie-reject" id="cookie-reject">Rifiuta</button>
+    <button class="cookie-accept" id="cookie-accept">Accetta</button>
+  </div>
+</div>
+
+<script src="assets/site.js"></script>
+</body>
+</html>
