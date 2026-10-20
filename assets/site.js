@@ -1,5 +1,8 @@
 // Blue Sky Milano — site.js
-// Mobile nav toggle + cookie consent banner + statistiche Umami (anonime, senza cookie)
+// Mobile nav toggle + cookie consent banner + mappa con consenso + statistiche Umami (anonime, senza cookie)
+// Lo stesso file serve le pagine italiane e quelle inglesi (/en/): la lingua si legge da <html lang>.
+
+var BSM_EN = (document.documentElement.getAttribute('lang') || '').toLowerCase().indexOf('en') === 0;
 
 // --- Statistiche Umami -------------------------------------------------------
 // Invio sicuro: se Umami non è caricato (adblock, rete, prova in locale) non succede niente.
@@ -124,11 +127,14 @@ document.addEventListener('click', function (e) {
     track('email_click', { zona: zona });
   } else if (/^https?:\/\/(www\.)?(google\.[a-z.]+\/maps|maps\.google\.[a-z.]+|maps\.app\.goo\.gl|goo\.gl\/maps|maps\.apple\.com)/.test(low)) {
     track('maps_click', { zona: zona });
+  } else if (a.classList.contains('nav-lang')) {
+    track('lingua_click', { verso: a.getAttribute('hreflang') || '' });
   } else {
     var url;
+    var reContatti = /\/(contatti|contact)\.html$/;
     try { url = new URL(a.href, window.location.href); } catch (_) { return; }
-    if (url.origin === window.location.origin && /\/contatti\.html$/.test(url.pathname) &&
-        !/\/contatti\.html$/.test(window.location.pathname)) {
+    if (url.origin === window.location.origin && reContatti.test(url.pathname) &&
+        !reContatti.test(window.location.pathname)) {
       track('disponibilita_click', { zona: zona });
     }
   }
@@ -160,6 +166,33 @@ document.addEventListener('DOMContentLoaded', function () {
     banner.classList.add('show');
   }
 
+  // Mappa Google: caricata solo dopo il consenso ("Accetta" nel banner o "Mostra la mappa")
+  function loadMaps() {
+    var boxes = document.querySelectorAll('[data-map-src]');
+    for (var i = 0; i < boxes.length; i++) {
+      var box = boxes[i];
+      if (box.getAttribute('data-map-loaded')) continue;
+      var iframe = document.createElement('iframe');
+      iframe.src = box.getAttribute('data-map-src');
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      iframe.title = box.getAttribute('data-map-title') || 'Map';
+      box.innerHTML = '';
+      box.appendChild(iframe);
+      box.setAttribute('data-map-loaded', '1');
+    }
+  }
+  if (getChoice() === 'accepted') loadMaps();
+  var mapButtons = document.querySelectorAll('.map-load');
+  for (var b = 0; b < mapButtons.length; b++) {
+    mapButtons[b].addEventListener('click', function () {
+      setChoice('accepted');
+      if (banner) banner.classList.remove('show');
+      loadMaps();
+      track('mappa_mostrata');
+    });
+  }
+
   var acceptBtn = document.getElementById('cookie-accept');
   var rejectBtn = document.getElementById('cookie-reject');
 
@@ -167,6 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
     acceptBtn.addEventListener('click', function () {
       setChoice('accepted');
       banner.classList.remove('show');
+      loadMaps();
     });
   }
   if (rejectBtn) {
@@ -215,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function () {
       e.preventDefault();
       if (errorBox) errorBox.hidden = true;
       var label = submitBtn ? submitBtn.textContent : '';
-      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Invio in corso…'; }
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = BSM_EN ? 'Sending…' : 'Invio in corso…'; }
       var campoDate = form.querySelector('[name="date"]');
       var datiDate = bsmDatiDate(campoDate ? campoDate.value : '');
       fetch(form.action, {
@@ -225,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }).then(function (res) {
         if (res.ok) {
           track('modulo_inviato', Object.keys(datiDate).length ? datiDate : undefined);
-          window.location.href = form.getAttribute('data-thanks') || 'grazie.html';
+          window.location.href = form.getAttribute('data-thanks') || (BSM_EN ? 'thank-you.html' : 'grazie.html');
         } else {
           throw new Error('invio non riuscito');
         }
