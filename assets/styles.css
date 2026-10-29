@@ -404,3 +404,27 @@ textarea { min-height: 130px; resize: vertical; }
   text-transform: uppercase;
   margin-bottom: 16px;
 }
+
+/* Mappa caricata solo dopo il consenso (20/10/2026) */
+.map-embed[data-map-src] { background: var(--bg-alt); }
+.map-placeholder {
+  min-height: 340px; padding: 28px 24px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; gap: 6px;
+  background: linear-gradient(160deg, var(--bg-alt) 0%, #e2ddd0 100%); color: var(--ink);
+}
+.map-placeholder .map-pin { font-size: 2rem; line-height: 1; }
+.map-placeholder .map-address { margin: 6px 0 10px; color: var(--ink); }
+.map-placeholder .map-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.map-placeholder .btn-secondary,
+.dark .map-placeholder .btn-secondary { color: var(--accent-dark); border-color: var(--accent-dark); }
+.map-placeholder .btn-secondary:hover,
+.dark .map-placeholder .btn-secondary:hover { background: var(--accent-dark); color: #fff; }
+.map-placeholder .map-note { margin: 12px 0 0; font-size: 0.82rem; color: var(--text-muted); max-width: 340px; }
+.map-placeholder .map-note a { color: var(--accent-dark); }
+
+/* Selettore lingua */
+.nav-links a.nav-lang {
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+  padding: 4px 9px; border: 1px solid var(--border); border-radius: 999px; color: var(--ink-2);
+}
+.nav-links a.nav-lang:hover { border-color: var(--accent); color: var(--accent); }
