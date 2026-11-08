@@ -291,7 +291,7 @@ label {
   display: block;
   margin-bottom: 6px;
 }
-input, textarea {
+input, textarea, select {
   width: 100%;
   padding: 12px 14px;
   border: 1px solid var(--border);
@@ -301,8 +301,28 @@ input, textarea {
   background: var(--card);
   color: var(--ink);
 }
-input:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(42, 111, 165, 0.15); }
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(42, 111, 165, 0.15); }
 textarea { min-height: 130px; resize: vertical; }
+/* Arrivo / partenza / ospiti sulla stessa riga; su telefono date affiancate e ospiti sotto */
+.form-row { display: grid; grid-template-columns: 1fr 1fr 0.8fr; gap: 16px; }
+.form-grid > *, .form-row > div { min-width: 0; }
+.form-row input, .form-row select { min-width: 0; max-width: 100%; }
+@media (max-width: 520px) {
+  .form-row { grid-template-columns: 1fr 1fr; }
+  .form-row > div:last-child { grid-column: 1 / -1; }
+  .form-row input[type="date"] { padding-left: 10px; padding-right: 8px; font-size: 0.95rem; }
+}
+input[type="date"] { min-height: 48px; -webkit-appearance: none; appearance: none; }
+input[type="date"]::-webkit-date-and-time-value { text-align: left; }
+select {
+  min-height: 48px;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%235a6b7d' stroke-width='1.6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
 .form-grid .btn-primary { justify-self: start; }
 .form-grid .btn-primary[disabled] { opacity: 0.6; cursor: wait; }
 .form-error { color: #9b2c2c; background: #fdecec; border: 1px solid #f3c2c2; padding: 12px 14px; border-radius: 2px; margin: 0; }
