@@ -27,90 +27,48 @@ function bsmZona(el) {
   return 'contenuto';
 }
 
-// Ricava notti e mese di arrivo dal campo "Date del soggiorno" (testo libero).
-// Restituisce solo numeri e nomi di mese, mai il testo scritto dall'ospite.
+// Dati del soggiorno dai campi Arrivo / Partenza / Ospiti (dall'8/11/2026).
+// A Umami vanno solo numeri e nomi di mese, mai date esatte né dati personali.
 var BSM_MESI = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'];
-var BSM_MESI_ALIAS = {
-  gennaio: 1, gen: 1, genn: 1, january: 1, jan: 1,
-  febbraio: 2, feb: 2, february: 2,
-  marzo: 3, mar: 3, march: 3,
-  aprile: 4, apr: 4, april: 4,
-  maggio: 5, mag: 5, may: 5,
-  giugno: 6, giu: 6, june: 6, jun: 6,
-  luglio: 7, lug: 7, july: 7, jul: 7,
-  agosto: 8, ago: 8, august: 8, aug: 8,
-  settembre: 9, set: 9, sett: 9, september: 9, sep: 9, sept: 9,
-  ottobre: 10, ott: 10, october: 10, oct: 10,
-  novembre: 11, nov: 11, november: 11,
-  dicembre: 12, dic: 12, december: 12, dec: 12
-};
+var BSM_MESI_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-function bsmDatiDate(testo) {
+// "2026-12-10" -> Date locale a mezzanotte (evita gli sfasamenti di fuso di new Date("2026-12-10"))
+function bsmData(v) {
+  var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || '');
+  return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null;
+}
+function bsmIso(d) {
+  return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+}
+function bsmNotti(form) {
+  var a = bsmData((form.querySelector('[name="arrivo"]') || {}).value);
+  var b = bsmData((form.querySelector('[name="partenza"]') || {}).value);
+  if (!a || !b) return null;
+  var n = Math.round((b - a) / 86400000);
+  return n >= 1 ? n : null;
+}
+function bsmDatiSoggiorno(form) {
   var out = {};
-  if (!testo) return out;
-  var t = String(testo).toLowerCase();
-  var re = /(\d+)[\/.](\d+)(?:[\/.](\d+))?|(\d+)|([a-zàèéìòù]+)/g;
-  var tok = [], m;
-  while ((m = re.exec(t)) !== null) tok.push(m);
-
-  var date = [];          // { g: giorno, m: mese|null }
-  var notti = null;
-  var meseCorrente = null;
-  var meseSolo = null;    // mese citato senza giorni
-  var prevMese = false;   // il token precedente era un mese
-
-  for (var i = 0; i < tok.length; i++) {
-    var k = tok[i];
-    var next = tok[i + 1] && tok[i + 1][5];
-    if (k[1]) {                       // 10/11 o 10.11.2026
-      var g1 = +k[1], m1 = +k[2];
-      if (g1 >= 1 && g1 <= 31 && m1 >= 1 && m1 <= 12) date.push({ g: g1, m: m1 });
-      prevMese = false;
-    } else if (k[4]) {                // numero da solo
-      var n = +k[4];
-      if (next && /^(notti|notte|nights?|nuits?|nächte|noches)$/.test(next)) {
-        if (n >= 1 && n <= 90) notti = n;
-      } else if (next && /^(persone|persona|ospiti|ospite|adulti|adulto|bambini|people|persons?|guests?|adults?)$/.test(next)) {
-        // numero di persone: ignorato
-      } else if (k[4].length <= 2 && n >= 1 && n <= 31) {
-        date.push({ g: n, m: prevMese ? meseCorrente : null });
-      }
-      prevMese = false;
-    } else if (k[5]) {                // parola
-      var mm = BSM_MESI_ALIAS[k[5]];
-      if (mm) {
-        var assegnati = 0;
-        for (var j = 0; j < date.length; j++) {
-          if (date[j].m === null) { date[j].m = mm; assegnati++; }
-        }
-        if (!assegnati && !date.length) meseSolo = meseSolo || mm;
-        meseCorrente = mm;
-        prevMese = true;
-      } else {
-        prevMese = false;
-      }
-    }
-  }
-  for (var z = 0; z < date.length; z++) {
-    if (date[z].m === null && meseCorrente) date[z].m = meseCorrente;
-  }
-  date = date.filter(function (d) { return d.m; });
-
-  var meseArrivo = date.length ? date[0].m : meseSolo;
-  if (meseArrivo) out.mese_arrivo = BSM_MESI[meseArrivo - 1];
-
-  if (date.length >= 2) {
-    var oggi = new Date();
-    var anno = oggi.getFullYear();
-    if (date[0].m < oggi.getMonth() + 1) anno++;  // mese già passato: anno prossimo
-    var a = new Date(anno, date[0].m - 1, date[0].g);
-    var b = new Date(anno, date[1].m - 1, date[1].g);
-    if (b < a) b = new Date(anno + 1, date[1].m - 1, date[1].g);
-    var diff = Math.round((b - a) / 86400000);
-    if (diff >= 1 && diff <= 90) notti = diff;
-  }
-  if (notti) out.notti = notti;
+  var a = bsmData((form.querySelector('[name="arrivo"]') || {}).value);
+  var n = bsmNotti(form);
+  var o = parseInt((form.querySelector('[name="ospiti"]') || {}).value, 10);
+  if (a) out.mese_arrivo = BSM_MESI[a.getMonth()];
+  if (n) out.notti = n;
+  if (o) out.ospiti = o;
   return out;
+}
+// Oggetto dell'email: "Nuova richiesta da blueskymilan.it — 10–15 dic, 5 notti, 2 ospiti"
+function bsmOggetto(form, base) {
+  var a = bsmData((form.querySelector('[name="arrivo"]') || {}).value);
+  var b = bsmData((form.querySelector('[name="partenza"]') || {}).value);
+  var o = (form.querySelector('[name="ospiti"]') || {}).value;
+  var n = bsmNotti(form);
+  if (!a || !b || !n) return base;
+  var mesi = BSM_EN ? BSM_MESI_EN : BSM_MESI.map(function (x) { return x.slice(0, 3); });
+  var txt = a.getDate() + (a.getMonth() !== b.getMonth() ? ' ' + mesi[a.getMonth()] : '') + '–' + b.getDate() + ' ' + mesi[b.getMonth()];
+  txt += ', ' + n + (BSM_EN ? (n === 1 ? ' night' : ' nights') : (n === 1 ? ' notte' : ' notti'));
+  if (o) txt += ', ' + o + (BSM_EN ? (o === '1' ? ' guest' : ' guests') : (o === '1' ? ' ospite' : ' ospiti'));
+  return base + ' — ' + txt;
 }
 
 // Un unico listener delegato per i clic sui link
@@ -212,6 +170,37 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var form = document.getElementById('contact-form');
 
+  // Arrivo / partenza: niente date passate, partenza almeno il giorno dopo l'arrivo
+  if (form) {
+    var fArrivo = form.querySelector('[name="arrivo"]');
+    var fPartenza = form.querySelector('[name="partenza"]');
+    if (fArrivo && fPartenza) {
+      var oggi = new Date(); oggi.setHours(0, 0, 0, 0);
+      fArrivo.min = bsmIso(oggi);
+      var dopo = new Date(oggi); dopo.setDate(dopo.getDate() + 1);
+      fPartenza.min = bsmIso(dopo);
+      var controllaDate = function () {
+        var a = bsmData(fArrivo.value);
+        var b = bsmData(fPartenza.value);
+        if (a) {
+          var min = new Date(a); min.setDate(min.getDate() + 1);
+          fPartenza.min = bsmIso(min);
+        }
+        var msg = '';
+        if (a && b && b <= a) msg = BSM_EN ? 'Check-out must be after check-in.' : 'La partenza deve essere dopo l\'arrivo.';
+        fPartenza.setCustomValidity(msg);
+      };
+      fArrivo.addEventListener('change', function () {
+        controllaDate();
+        // Se la partenza è vuota o non più valida, proponi la notte successiva come base
+        var a = bsmData(fArrivo.value), b = bsmData(fPartenza.value);
+        if (a && (!b || b <= a)) { var d = new Date(a); d.setDate(d.getDate() + 1); fPartenza.value = bsmIso(d); controllaDate(); }
+      });
+      fPartenza.addEventListener('change', controllaDate);
+      fPartenza.addEventListener('input', controllaDate);
+    }
+  }
+
   // Statistiche del modulo (nessun dato personale: solo nomi dei campi e numeri)
   if (form) {
     // modulo_iniziato: primo input, una sola volta (tenuto in memoria: nulla viene salvato nel browser;
@@ -250,15 +239,19 @@ document.addEventListener('DOMContentLoaded', function () {
       if (errorBox) errorBox.hidden = true;
       var label = submitBtn ? submitBtn.textContent : '';
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = BSM_EN ? 'Sending…' : 'Invio in corso…'; }
-      var campoDate = form.querySelector('[name="date"]');
-      var datiDate = bsmDatiDate(campoDate ? campoDate.value : '');
+      var datiSoggiorno = bsmDatiSoggiorno(form);
+      var fd = new FormData(form);
+      var notti = bsmNotti(form);
+      if (notti) fd.set('notti', String(notti));
+      var campoOggetto = form.querySelector('[name="_subject"]');
+      if (campoOggetto) fd.set('_subject', bsmOggetto(form, campoOggetto.value));
       fetch(form.action, {
         method: 'POST',
-        body: new FormData(form),
+        body: fd,
         headers: { 'Accept': 'application/json' }
       }).then(function (res) {
         if (res.ok) {
-          track('modulo_inviato', Object.keys(datiDate).length ? datiDate : undefined);
+          track('modulo_inviato', Object.keys(datiSoggiorno).length ? datiSoggiorno : undefined);
           window.location.href = form.getAttribute('data-thanks') || (BSM_EN ? 'thank-you.html' : 'grazie.html');
         } else {
           throw new Error('invio non riuscito');
@@ -272,8 +265,7 @@ document.addEventListener('DOMContentLoaded', function () {
   } else if (form) {
     // Browser molto vecchi: invio classico, il modulo funziona come prima
     form.addEventListener('submit', function () {
-      var campoDate = form.querySelector('[name="date"]');
-      var d = bsmDatiDate(campoDate ? campoDate.value : '');
+      var d = bsmDatiSoggiorno(form);
       track('modulo_inviato', Object.keys(d).length ? d : undefined);
     });
   }
