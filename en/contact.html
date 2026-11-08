@@ -21,7 +21,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="stylesheet" href="../assets/styles.css?v=20261029">
+<link rel="stylesheet" href="../assets/styles.css?v=20261108">
 <script defer src="https://cloud.umami.is/script.js" data-website-id="ab918f23-8fa9-4bd5-a9e5-17a2a127aed8" data-domains="www.blueskymilan.it,blueskymilan.it"></script>
 </head>
 <body>
@@ -72,13 +72,28 @@
             <label for="telefono">Phone / WhatsApp (optional)</label>
             <input type="tel" id="telefono" name="telefono" autocomplete="tel">
           </div>
-          <div>
-            <label for="date">Dates of your stay (approximate)</label>
-            <input type="text" id="date" name="date" placeholder="e.g. 10–15 November">
+          <div class="form-row">
+            <div>
+              <label for="arrivo">Check-in</label>
+              <input type="date" id="arrivo" name="arrivo" required>
+            </div>
+            <div>
+              <label for="partenza">Check-out</label>
+              <input type="date" id="partenza" name="partenza" required>
+            </div>
+            <div>
+              <label for="ospiti">Guests</label>
+              <select id="ospiti" name="ospiti" required>
+                <option value="" selected disabled>Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+            </div>
           </div>
           <div>
             <label for="messaggio">Message</label>
-            <textarea id="messaggio" name="messaggio" required placeholder="Tell us about your stay: how many guests, how many nights, any special requests..."></textarea>
+            <textarea id="messaggio" name="messaggio" required placeholder="Arrival time, garage, any special requests..."></textarea>
           </div>
           <button type="submit" class="btn btn-primary">Send request</button>
           <p class="form-error" id="form-error" role="alert" hidden>We couldn't send your message. Please try again shortly, or contact us on <a href="https://wa.me/393207637442" target="_blank" rel="noopener">WhatsApp</a> or at <a href="mailto:info@blueskymilan.it">info@blueskymilan.it</a>.</p>
@@ -197,6 +212,6 @@
   </div>
 </div>
 
-<script src="../assets/site.js?v=20261029"></script>
+<script src="../assets/site.js?v=20261108"></script>
 </body>
 </html>
